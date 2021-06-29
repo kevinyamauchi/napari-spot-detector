@@ -29,6 +29,21 @@ def napari_experimental_provide_function():
 
 
 def gaussian_high_pass(image: np.ndarray, sigma: float = 2):
+    """Apply a gaussian high pass filter to an image.
+
+    Parameters
+    ----------
+    image : np.ndarray
+        The image to be filtered.
+    sigma : float
+        The sigma (width) of the gaussian filter to be applied.
+        The default value is 2.
+
+    Returns
+    -------
+    high_passed_im : np.ndarray
+        The image with the high pass filter applied
+    """
     low_pass = ndi.gaussian_filter(image, sigma)
     high_passed_im = image - low_pass
 
@@ -41,7 +56,30 @@ def detect_spots(
     spot_threshold: float = 0.01,
     blob_sigma: float = 2
 ) -> "napari.types.LayerDataTuple":
-    """Adds, subtracts, multiplies, or divides two same-shaped image layers."""
+    """Apply a gaussian high pass filter to an image.
+
+    Parameters
+    ----------
+    image : napari.types.ImageData
+        The image in which to detect the spots.
+    high_pass_sigma : float
+        The sigma (width) of the gaussian filter to be applied.
+        The default value is 2.
+    spot_threshold : float
+        The threshold to be passed to the blob detector.
+        The default value is 0.01.
+    blob_sigma: float
+        The expected sigma (width) of the spots. This parameter
+        is passed to the "max_sigma" parameter of the blob
+        detector.
+
+    Returns
+    -------
+    layer_data : napari.types.LayerDataTuple
+        The layer data tuple to create a points layer
+        with the spot coordinates.
+
+    """
 
     # filter the image
     filtered_spots = gaussian_high_pass(image, high_pass_sigma)
